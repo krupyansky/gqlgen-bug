@@ -1,0 +1,27 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable", "@inaccessible", "@external"])
+
+scalar DateTime @specifiedBy(url: "https://www.graphql-scalars.com/date-time")
+
+type Query {
+  getProduct(in: ProductInput): Product
+}
+
+input ProductInput {
+  id: ID!
+  version: Int!
+}
+
+interface ParameterAvailableValue {
+  unit: String @deprecated(reason: "Some reason")
+}
+
+type ParameterSingleValue implements ParameterAvailableValue {
+  value: String!
+  unit: String
+}
+
+type Product @shareable {
+  id: ID!
+  version: Int!
+  value: ParameterSingleValue
+}
